@@ -13,7 +13,7 @@ jobs:
         uses: helm/kind-action@v1.4.0
       - name: Testing
         run: |
-          kubectl wait nodes --for condition=Ready --all
+          kubectl wait nodes --for condition=Ready --all --timeout=120s
           kubectl cluster-info
           kubectl get pods -n kube-system
           echo "current-context:" $(kubectl config current-context)
