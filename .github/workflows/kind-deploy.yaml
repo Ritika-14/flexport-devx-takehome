@@ -1,7 +1,8 @@
 name: "Deliver application to Kubernetes cluster using Kind"
-on: [pull_request, push]
-  branches: 
-  - kind
+on: 
+  push: 
+    branches: 
+      - kind
 
 jobs:
   kind:
