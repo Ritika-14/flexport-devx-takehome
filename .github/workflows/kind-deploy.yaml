@@ -12,8 +12,7 @@ jobs:
       - name: Create k8s Kind Cluster
         uses: helm/kind-action@v1.4.0
         with:
-          config: |
-            $(cat ./kind-cluster/config.yaml)
+          config: ./kind-cluster/config.yaml
       - name: Testing
         run: |
           kubectl wait nodes --for condition=Ready --all
