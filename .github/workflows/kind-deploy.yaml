@@ -7,6 +7,8 @@ on:
 jobs:
   kind:
     runs-on: ubuntu-latest
+    env:
+      DEBIAN_FRONTEND: noninteractive
     steps:
       - uses: actions/checkout@v3
       - name: Create k8s Kind Cluster
