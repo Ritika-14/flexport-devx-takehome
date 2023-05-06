@@ -31,6 +31,7 @@ jobs:
           export NODE_PORT=$(kubectl get services/my-service -o go-template='{{(index .spec.ports 0).nodePort}}')
           echo NODE_PORT=${NODE_PORT}
           export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' | tail -1 )
+          kubectl exec -ti $POD_NAME -- apt-get update
           kubectl exec -ti $POD_NAME -- curl localhost:5000/health
       - name: Cleanup
         if: always()
