@@ -24,13 +24,13 @@ jobs:
         run: |
           kubectl create deployment my-deployment --image=ghcr.io/ritika-14/newimage1:sha-e400cc6@sha256:90f1ce8f1e07f52cc2c68e81875b0f447e95685276442d16765566fdd1bb51e5
           kubectl wait pods --for condition=Ready --timeout=90s --all
-          kubectl apply -f ./kind-cluster/deployment.yaml
+          kubectl expose deployment/my-deployment --type=NodePort --port 8080
           kubectl apply -f ./kind-cluster/service.yaml
       - name: Test Deployment
         run: |
           export NODE_PORT=$(kubectl get services/my-service -o go-template='{{(index .spec.ports 0).nodePort}}')
           echo NODE_PORT=${NODE_PORT}
-          export POD_NAME=$(kubectl get pods -l app=my-app -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' | tail -1 )
+          export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' | tail -1 )
           kubectl exec -ti $POD_NAME -- apt-get
           kubectl exec -ti $POD_NAME -- apt-get install curl
           kubectl exec -ti $POD_NAME -- curl localhost:5000/health
