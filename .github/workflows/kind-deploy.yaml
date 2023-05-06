@@ -30,7 +30,6 @@ jobs:
         run: |
           export NODE_PORT=$(kubectl get services/my-service -o go-template='{{(index .spec.ports 0).nodePort}}')
           echo NODE_PORT=${NODE_PORT}
-          kubectl describe services/my-service
           export POD_NAME=$(kubectl get pods -l app=my-app -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' | tail -1 )
           kubectl exec -ti $POD_NAME -- apt-get
           kubectl exec -ti $POD_NAME -- apt-get install curl
